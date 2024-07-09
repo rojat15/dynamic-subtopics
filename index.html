@@ -1,77 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Subtopics</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-        }
-        #topics {
-            display: flex;
-            justify-content: center;
-            margin: 20px;
-        }
-        button {
-            margin: 5px;
-            padding: 10px;
-            cursor: pointer;
-        }
-        #subtopics {
-            margin: 20px;
-            width: 80%;
-        }
-        .subtopic {
-            margin: 10px 0;
-        }
-    </style>
+  <title>Trigger Webhook</title>
+  <script>
+    function triggerWebhook() {
+      fetch('YOUR_WEBHOOK_URL', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ topic: 'Direct Air Capture' })
+      }).then(response => response.json())
+        .then(data => {
+          window.location.href = 'YOUR_MIRO_BOARD_URL';
+        });
+    }
+  </script>
 </head>
-<body>
-    <div id="topics">
-        <button onclick="loadSubtopics('Topic 1')">Topic 1</button>
-        <!-- Add more topics as needed -->
-    </div>
-    <div id="subtopics">
-        <h3>Subtopics will appear here</h3>
-    </div>
-
-    <script>
-        function loadSubtopics(topic) {
-            // Clear previous subtopics
-            document.getElementById('subtopics').innerHTML = '<h3>Loading...</h3>';
-
-            // Send request to Make.com webhook
-            fetch('https://hook.eu2.make.com/gfo06g3prt2dwi6j4mv57qn1pljr7xxo', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ topic: topic })
-            })
-            .then(response => response.json())
-            .then(data => {
-                const subtopicsDiv = document.getElementById('subtopics');
-                subtopicsDiv.innerHTML = '<h3>Subtopics for ' + topic + ':</h3>';
-                data.subtopics.forEach(subtopic => {
-                    const subtopicElement = document.createElement('div');
-                    subtopicElement.className = 'subtopic';
-                    subtopicElement.textContent = subtopic;
-                    subtopicsDiv.appendChild(subtopicElement);
-                });
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                document.getElementById('subtopics').innerHTML = '<h3>Error loading subtopics.</h3>';
-            });
-        }
-    </script>
+<body onload="triggerWebhook()">
+  <p>Loading...</p>
 </body>
 </html>
+
 
