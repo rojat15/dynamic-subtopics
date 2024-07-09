@@ -7,14 +7,26 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
         }
-        #topics, #subtopics {
+        #topics {
+            display: flex;
+            justify-content: center;
             margin: 20px;
         }
         button {
             margin: 5px;
             padding: 10px;
             cursor: pointer;
+        }
+        #subtopics {
+            margin: 20px;
+            width: 80%;
         }
         .subtopic {
             margin: 10px 0;
@@ -24,7 +36,6 @@
 <body>
     <div id="topics">
         <button onclick="loadSubtopics('Topic 1')">Topic 1</button>
-        <button onclick="loadSubtopics('Topic 2')">Topic 2</button>
         <!-- Add more topics as needed -->
     </div>
     <div id="subtopics">
@@ -63,3 +74,4 @@
     </script>
 </body>
 </html>
+
