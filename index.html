@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Subtopics</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #topics, #subtopics {
+            margin: 20px;
+        }
+        button {
+            margin: 5px;
+            padding: 10px;
+            cursor: pointer;
+        }
+        .subtopic {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="topics">
+        <button onclick="loadSubtopics('Topic 1')">Topic 1</button>
+        <button onclick="loadSubtopics('Topic 2')">Topic 2</button>
+        <!-- Add more topics as needed -->
+    </div>
+    <div id="subtopics">
+        <h3>Subtopics will appear here</h3>
+    </div>
+
+    <script>
+        function loadSubtopics(topic) {
+            // Clear previous subtopics
+            document.getElementById('subtopics').innerHTML = '<h3>Loading...</h3>';
+
+            // Send request to Make.com webhook
+            fetch('YOUR_MAKE_WEBHOOK_URL', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ topic: topic })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const subtopicsDiv = document.getElementById('subtopics');
+                subtopicsDiv.innerHTML = '<h3>Subtopics for ' + topic + ':</h3>';
+                data.subtopics.forEach(subtopic => {
+                    const subtopicElement = document.createElement('div');
+                    subtopicElement.className = 'subtopic';
+                    subtopicElement.textContent = subtopic;
+                    subtopicsDiv.appendChild(subtopicElement);
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('subtopics').innerHTML = '<h3>Error loading subtopics.</h3>';
+            });
+        }
+    </script>
+</body>
+</html>
